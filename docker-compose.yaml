@@ -1,0 +1,19 @@
+version: "3.9"
+
+
+services:
+  devbox: &devbox
+    build:
+      context: .
+      dockerfile: ./docker/devbox.Dockerfile
+    entrypoint: ["/bin/bash"]
+    volumes:
+      - .:/usr/src/app
+
+  lock-requirements:
+    <<: *devbox
+    entrypoint: [/bin/bash, ./docker/entrypoints/lock-requirements.sh]
+
+  lint:
+    <<: *devbox
+    entrypoint: [/bin/bash, ./docker/entrypoints/lint.sh]
